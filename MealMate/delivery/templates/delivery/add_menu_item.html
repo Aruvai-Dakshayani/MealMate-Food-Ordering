@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Add Menu Item - MealMate</title>
+
+</head>
+
+<body>
+
+    <h1>MealMate</h1>
+
+    <h2>Add New Menu Item</h2>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">
+            Add Menu Item
+        </button>
+
+    </form>
+
+    <br>
+
+    <a href="{% url 'restaurant_list' %}">
+        Back to Restaurants
+    </a>
+
+</body>
+
+</html>

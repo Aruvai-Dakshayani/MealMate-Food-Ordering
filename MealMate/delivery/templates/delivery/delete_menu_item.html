@@ -1,0 +1,248 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Delete Food Item | MealMate</title>
+
+    <link rel="stylesheet" href="{% static 'delivery/style.css' %}">
+
+    <style>
+        .page {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 45px 22px;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #c7f36b;
+            text-decoration: none;
+            margin-bottom: 28px;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .card {
+            background: #292e28;
+            border: 1px solid #41473d;
+            border-radius: 20px;
+            padding: 34px;
+        }
+
+        .warning-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            border-radius: 15px;
+            background: #3c2927;
+            border: 1px solid #8e5149;
+            color: #ffb4aa;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .eyebrow {
+            color: #c7f36b;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            color: #fffef8;
+            font-size: clamp(27px, 4vw, 36px);
+            margin: 12px 0;
+        }
+
+        .description {
+            color: #a9afa2;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .item-summary {
+            background: #20241f;
+            border: 1px solid #41473d;
+            border-radius: 14px;
+            padding: 22px;
+            margin: 26px 0;
+        }
+
+        .summary-label {
+            color: #a9afa2;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .item-name {
+            color: #fffef8;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .item-detail {
+            color: #a9afa2;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .price {
+            color: #c7f36b;
+            font-weight: 700;
+        }
+
+        .notice {
+            background: #30362e;
+            border-left: 3px solid #c7f36b;
+            border-radius: 0 10px 10px 0;
+            padding: 15px 18px;
+            color: #d5d9ce;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 28px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 13px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .btn-cancel {
+            color: #fffef8;
+            background: transparent;
+            border: 1px solid #41473d;
+        }
+
+        .btn-cancel:hover {
+            border-color: #c7f36b;
+        }
+
+        .btn-delete {
+            color: #29201f;
+            background: #ffb4aa;
+            border: 1px solid #ffb4aa;
+        }
+
+        .btn-delete:hover {
+            background: #ffccc5;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 550px) {
+            .page {
+                padding: 25px 14px;
+            }
+
+            .card {
+                padding: 22px;
+            }
+
+            .form-actions .btn {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<main class="page">
+
+    <a href="{% url 'menu_item_list' %}" class="back-link">
+        &larr; Back to Menu
+    </a>
+
+    <section class="card">
+
+        <div class="warning-icon" aria-hidden="true">!</div>
+
+        <span class="eyebrow">Menu Management</span>
+
+        <h1>Delete Food Item?</h1>
+
+        <p class="description">
+            Please review the food item details before continuing.
+            Make sure you selected the correct item.
+        </p>
+
+        <div class="item-summary">
+
+            <div class="summary-label">Food item selected</div>
+
+            <div class="item-name">
+                {{ menu_item.name }}
+            </div>
+
+            <div class="item-detail">
+                <strong>Item ID:</strong>
+                {{ menu_item.id }}
+            </div>
+
+            <div class="item-detail">
+                <strong>Restaurant:</strong>
+                {{ menu_item.restaurant.name|default:"Not assigned" }}
+            </div>
+
+            <div class="item-detail">
+                <strong>Price:</strong>
+                <span class="price">₹{{ menu_item.price }}</span>
+            </div>
+
+        </div>
+
+        <div class="notice">
+            <strong>Important:</strong>
+            Deleting this item may remove it from the restaurant's menu.
+            Check your existing database relationships before confirming.
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-actions">
+
+                <a href="{% url 'menu_item_list' %}"
+                   class="btn btn-cancel">
+                    Cancel
+                </a>
+
+                <button type="submit" class="btn btn-delete">
+                    Confirm Delete
+                </button>
+
+            </div>
+        </form>
+
+    </section>
+
+</main>
+</body>
+</html>

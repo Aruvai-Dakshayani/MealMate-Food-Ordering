@@ -1,0 +1,323 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | MealMate</title>
+
+    <link rel="stylesheet" href="{% static 'delivery/style.css' %}">
+
+    <style>
+        :root {
+            --bg: #20241f;
+            --surface: #292e28;
+            --surface-light: #32382f;
+            --lime: #c7f36b;
+            --ivory: #fffef8;
+            --muted: #a9afa2;
+            --border: #41473d;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--bg);
+            color: var(--ivory);
+            font-family: "DM Sans", Arial, sans-serif;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 20px 7%;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand {
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .brand span { color: var(--lime); }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .nav-links a:hover { color: var(--lime); }
+
+        .page {
+            width: min(1050px, 90%);
+            margin: 48px auto;
+        }
+
+        .eyebrow {
+            color: var(--lime);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        h1 {
+            margin: 10px 0;
+            font-size: clamp(30px, 5vw, 44px);
+            letter-spacing: -1.5px;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 290px 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 28px;
+        }
+
+        .identity { text-align: center; }
+
+        .avatar {
+            width: 88px;
+            height: 88px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            background: var(--lime);
+            color: var(--bg);
+            font-size: 34px;
+            font-weight: 800;
+        }
+
+        .identity h2 {
+            font-size: 21px;
+            margin: 0 0 8px;
+            overflow-wrap: anywhere;
+        }
+
+        .identity p {
+            color: var(--muted);
+            font-size: 14px;
+            overflow-wrap: anywhere;
+        }
+
+        .tag {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 7px 12px;
+            border-radius: 30px;
+            background: #39432d;
+            color: var(--lime);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .details-heading {
+            margin: 0 0 22px;
+            font-size: 20px;
+        }
+
+        .detail {
+            padding: 17px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .detail:last-of-type { border-bottom: 0; }
+
+        .detail-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .detail-value {
+            font-size: 15px;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+            white-space: pre-line;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 26px;
+        }
+
+        .btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 12px 18px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            transition: .2s;
+        }
+
+        .btn-primary {
+            background: var(--lime);
+            border-color: var(--lime);
+            color: var(--bg);
+        }
+
+        .btn-primary:hover { background: #d6ff8b; }
+
+        .btn-secondary:hover {
+            border-color: var(--lime);
+            color: var(--lime);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 28px;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .back-link:hover { color: var(--lime); }
+
+        footer {
+            padding: 25px 7%;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            text-align: center;
+            font-size: 13px;
+        }
+
+        @media (max-width: 700px) {
+            .navbar { padding: 18px 5%; }
+            .nav-links { gap: 12px; }
+            .nav-links a:first-child { display: none; }
+            .page { margin: 32px auto; }
+            .profile-layout { grid-template-columns: 1fr; }
+            .card { padding: 22px; }
+            .actions { flex-direction: column; }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <a href="{% url 'customer_home' %}" class="brand">
+            Meal<span>Mate</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="{% url 'customer_home' %}">Home</a>
+            <a href="{% url 'my_orders' %}">My Orders</a>
+            <a href="{% url 'profile' %}">My Profile</a>
+        </nav>
+    </header>
+
+    <main class="page">
+        <div class="eyebrow">Your account</div>
+        <h1>My Profile<span style="color: var(--lime)">.</span></h1>
+        <p class="subtitle">
+            Manage your personal information and keep your delivery
+            details up to date.
+        </p>
+
+        <div class="profile-layout">
+            <section class="card identity">
+                <div class="avatar">
+                    {{ request.user.username|first|upper }}
+                </div>
+
+                <h2>{{ request.user.username }}</h2>
+
+                <p>
+                    {% if request.user.email %}
+                        {{ request.user.email }}
+                    {% else %}
+                        Email not provided
+                    {% endif %}
+                </p>
+
+                <span class="tag">MealMate Member</span>
+            </section>
+
+            <section class="card">
+                <h2 class="details-heading">Personal information</h2>
+
+                <div class="detail">
+                    <span class="detail-label">Username</span>
+                    <div class="detail-value">{{ request.user.username }}</div>
+                </div>
+
+                <div class="detail">
+                    <span class="detail-label">Email address</span>
+                    <div class="detail-value">
+                        {% if request.user.email %}
+                            {{ request.user.email }}
+                        {% else %}
+                            Not provided
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="detail">
+                    <span class="detail-label">Mobile number</span>
+                    <div class="detail-value">
+                        {% if customer_profile.mobile %}
+                            {{ customer_profile.mobile }}
+                        {% else %}
+                            Not provided
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="detail">
+                    <span class="detail-label">Delivery address</span>
+                    <div class="detail-value">{% if customer_profile.address %}{{ customer_profile.address }}{% else %}Not provided{% endif %}</div>
+                </div>
+
+                <div class="actions">
+                    <a href="{% url 'edit_profile' %}" class="btn btn-primary">
+                        Edit Profile &nbsp; →
+                    </a>
+
+                    <a href="{% url 'change_password' %}" class="btn btn-secondary">
+                        Change Password
+                    </a>
+                </div>
+            </section>
+        </div>
+
+        <a href="{% url 'customer_home' %}" class="back-link">
+            ← Back to Home
+        </a>
+    </main>
+
+    <footer>
+        Made with care by MealMate · Good food, better moments.
+    </footer>
+</body>
+</html>

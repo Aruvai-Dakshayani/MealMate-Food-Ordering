@@ -1,0 +1,642 @@
+```html
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Mate | Food Ordering</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #1c211b;
+            --bg-soft: #242a21;
+            --card: #292f27;
+            --lime: #c5f36b;
+            --green: #8fbf4d;
+            --white: #f8f8f2;
+            --muted: #a5ad9e;
+            --border: #3b4336;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--white);
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* Navigation */
+        .navbar {
+            min-height: 78px;
+            padding: 18px 5.5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #20251e;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: var(--white);
+        }
+
+        .logo span {
+            color: var(--lime);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .nav-links a {
+            color: #c3c8bd;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--lime);
+        }
+
+        .nav-links .signup-btn {
+            background: var(--lime);
+            color: #20251e;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 650px;
+            padding: 75px 5.5%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 65px;
+            background:
+                radial-gradient(
+                    ellipse at 80% 20%,
+                    #303a25 0%,
+                    #20251e 55%,
+                    #1c211b 100%
+                );
+        }
+
+        .hero-content {
+            max-width: 570px;
+        }
+
+        .tagline {
+            display: inline-block;
+            padding: 10px 14px;
+            border: 1px solid #53663b;
+            border-radius: 25px;
+            color: var(--lime);
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 27px;
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 5vw, 65px);
+            line-height: 1.08;
+            letter-spacing: -2.5px;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 span {
+            color: var(--lime);
+        }
+
+        .hero-content > p {
+            max-width: 490px;
+            color: #b0b6a9;
+            font-size: 16px;
+            line-height: 1.85;
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 13px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 22px;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: var(--lime);
+            color: #20251e;
+        }
+
+        .btn-secondary {
+            border: 1px solid #485042;
+            color: var(--white);
+            background: #292f27;
+        }
+
+        /* Hero image and overlay */
+        .hero-visual {
+            position: relative;
+            padding-bottom: 28px;
+        }
+
+        .hero-visual > img {
+            width: 100%;
+            height: 390px;
+            object-fit: cover;
+            display: block;
+            border-radius: 24px;
+        }
+
+        .image-note {
+            position: absolute;
+            bottom: 0;
+            left: 5%;
+            right: 5%;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            background: rgba(31, 36, 29, 0.97);
+            border: 1px solid #424a3c;
+            border-radius: 16px;
+        }
+
+        .image-note h3 {
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+
+        .image-note p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .note-link {
+            flex-shrink: 0;
+            background: var(--lime);
+            color: #20251e;
+            padding: 11px 13px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* About section */
+        .about {
+            padding: 75px 5.5%;
+            background: #1c211b;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 38px;
+        }
+
+        .section-heading h2 {
+            font-size: clamp(27px, 3vw, 36px);
+            margin-bottom: 13px;
+            letter-spacing: -0.8px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 23px;
+        }
+
+        .feature-card {
+            overflow: hidden;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: #697d4c;
+        }
+
+        .feature-card img {
+            display: block;
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .feature-content {
+            padding: 23px;
+        }
+
+        .feature-content h3 {
+            color: var(--lime);
+            font-size: 19px;
+            margin-bottom: 12px;
+        }
+
+        .feature-content p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        /* Additional food gallery */
+        .gallery {
+            padding: 15px 5.5% 75px;
+            background: #1c211b;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr;
+            gap: 18px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 14px;
+            height: 245px;
+            border: 1px solid var(--border);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-label {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 30px 18px 17px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* Call to action */
+        .cta {
+            margin: 0 5.5% 65px;
+            padding: 48px 25px;
+            border: 1px solid #46563a;
+            border-radius: 20px;
+            text-align: center;
+            background: linear-gradient(120deg, #283226, #20271e);
+        }
+
+        .cta h2 {
+            font-size: 30px;
+            margin-bottom: 14px;
+        }
+
+        .cta p {
+            color: var(--muted);
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 28px 5.5%;
+            background: #171b16;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        footer .logo {
+            font-size: 23px;
+        }
+
+        footer p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        @media (max-width: 900px) {
+            .hero {
+                gap: 35px;
+                padding-top: 60px;
+                padding-bottom: 70px;
+            }
+
+            .hero-visual > img {
+                height: 320px;
+            }
+
+            .features {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 18px 5%;
+                gap: 15px;
+            }
+
+            .logo {
+                font-size: 23px;
+            }
+
+            .nav-links {
+                gap: 12px;
+            }
+
+            .nav-links a {
+                font-size: 12px;
+            }
+
+            .nav-links .signup-btn {
+                padding: 10px;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 50px 5% 65px;
+            }
+
+            .hero h1 {
+                font-size: 45px;
+            }
+
+            .hero-visual > img {
+                height: 300px;
+            }
+
+            .image-note {
+                padding: 15px;
+            }
+
+            .about {
+                padding: 55px 5%;
+            }
+
+            .features,
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-card img {
+                height: 220px;
+            }
+
+            .gallery {
+                padding: 0 5% 55px;
+            }
+
+            .gallery-item {
+                height: 230px;
+            }
+
+            .cta {
+                margin: 0 5% 50px;
+            }
+
+            .cta h2 {
+                font-size: 25px;
+            }
+
+            footer {
+                justify-content: center;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <a href="{% url 'home' %}" class="logo">
+            Meal <span>Mate.</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="#about">About</a>
+            <a href="{% url 'signin' %}">Login</a>
+            <a href="{% url 'signup' %}" class="signup-btn">Sign Up</a>
+        </nav>
+    </header>
+
+    <!-- Hero section -->
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <div class="tagline">✦ GOOD FOOD STARTS HERE</div>
+
+                <h1>
+                    Hungry?<br>
+                    Let's find your<br>
+                    <span>happy place.</span>
+                </h1>
+
+                <p>
+                    Discover restaurants, explore menus, and find
+                    something delicious for every craving. Your next
+                    favourite meal is just a few clicks away.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="{% url 'signup' %}" class="btn btn-primary">
+                        Get Started &nbsp; →
+                    </a>
+
+                    <a href="{% url 'signin' %}" class="btn btn-secondary">
+                        Login
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <img
+                    src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1100&q=85"
+                    alt="Fresh meal with vegetables and grains">
+
+                <div class="image-note">
+                    <div>
+                        <h3>Something delicious awaits.</h3>
+                        <p>Explore menus from your local restaurants.</p>
+                    </div>
+
+                    <a href="{% url 'signup' %}" class="note-link">
+                        Let's eat ↗
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About / features -->
+        <section class="about" id="about">
+            <div class="section-heading">
+                <h2>Your food journey starts here</h2>
+                <p>
+                    Discover restaurants, explore menus, and enjoy
+                    finding your next favourite meal.
+                </p>
+            </div>
+
+            <div class="features">
+                <article class="feature-card">
+                    <img
+                        src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=85"
+                        alt="Restaurant interior">
+
+                    <div class="feature-content">
+                        <h3>Explore Restaurants</h3>
+                        <p>
+                            Discover restaurants and explore different
+                            cuisines to find something you love.
+                        </p>
+                    </div>
+                </article>
+
+                <article class="feature-card">
+                    <img
+                        src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=85"
+                        alt="Fresh colourful salad bowl">
+
+                    <div class="feature-content">
+                        <h3>Discover Delicious Food</h3>
+                        <p>
+                            Browse delicious dishes and find meals
+                            that match your taste.
+                        </p>
+                    </div>
+                </article>
+
+                <article class="feature-card">
+                    <img
+                        src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=85"
+                        alt="A table of prepared food">
+
+                    <div class="feature-content">
+                        <h3>Order with Ease</h3>
+                        <p>
+                            Sign in to your account and get started
+                            with your food ordering experience.
+                        </p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- More food images -->
+        <section class="gallery">
+            <div class="section-heading">
+                <h2>A little something for every craving</h2>
+                <p>Good food brings people together.</p>
+            </div>
+
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img
+                        src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=900&q=85"
+                        alt="Freshly baked pizza">
+                    <div class="gallery-label">Pizza & Comfort Food</div>
+                </div>
+
+                <div class="gallery-item">
+                    <img
+                        src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=85"
+                        alt="Burger with fresh ingredients">
+                    <div class="gallery-label">Burgers & More</div>
+                </div>
+
+                <div class="gallery-item">
+                    <img
+                        src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=85"
+                        alt="Fresh green salad">
+                    <div class="gallery-label">Fresh & Healthy</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sign-up section -->
+        <section class="cta">
+            <h2>Ready to find your happy place?</h2>
+            <p>
+                Join MealMate and start exploring delicious food today.
+            </p>
+
+            <a href="{% url 'signup' %}" class="btn btn-primary">
+                Create Account &nbsp; →
+            </a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <a href="{% url 'home' %}" class="logo">
+            Meal <span>Mate.</span>
+        </a>
+
+        <p>&copy; 2026 MealMate. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
+```

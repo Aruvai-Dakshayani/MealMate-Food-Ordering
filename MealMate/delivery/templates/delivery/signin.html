@@ -1,0 +1,503 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | MealMate</title>
+
+    <link rel="stylesheet" href="{% static 'delivery/style.css' %}">
+
+    <style>
+        :root {
+            --background: #20241f;
+            --surface: #292e28;
+            --surface-light: #33392f;
+            --lime: #c7f36b;
+            --text: #fffef8;
+            --muted: #a9afa2;
+            --border: #444a40;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--background);
+            color: var(--text);
+            font-family: "DM Sans", Arial, sans-serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .signin-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 22px 7%;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand {
+            font-size: 27px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .brand span {
+            color: var(--lime);
+        }
+
+        .header-link {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .header-link:hover,
+        .signup-link:hover {
+            color: var(--lime);
+        }
+
+        .signin-layout {
+            min-height: calc(100vh - 75px);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 60px;
+            padding: 55px 9%;
+        }
+
+        .signin-intro {
+            max-width: 490px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            padding: 8px 13px;
+            border: 1px solid #53643b;
+            border-radius: 30px;
+            color: var(--lime);
+            background: #2a3423;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .signin-intro h1 {
+            margin: 24px 0 18px;
+            font-size: clamp(38px, 5vw, 62px);
+            line-height: 1.08;
+            letter-spacing: -2px;
+        }
+
+        .signin-intro h1 span {
+            color: var(--lime);
+        }
+
+        .signin-intro p {
+            max-width: 420px;
+            color: var(--muted);
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .benefits {
+            display: grid;
+            gap: 16px;
+            margin-top: 35px;
+        }
+
+        .benefit {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #e9ecdf;
+            font-size: 14px;
+        }
+
+        .benefit-icon {
+            display: grid;
+            place-items: center;
+            width: 35px;
+            height: 35px;
+            flex-shrink: 0;
+            border-radius: 11px;
+            background: var(--surface-light);
+            color: var(--lime);
+        }
+
+        .signin-card {
+            width: 100%;
+            max-width: 460px;
+            justify-self: end;
+            padding: 36px;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            background: var(--surface);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.2);
+        }
+
+        .welcome-icon {
+            display: grid;
+            place-items: center;
+            width: 54px;
+            height: 54px;
+            margin-bottom: 23px;
+            border-radius: 16px;
+            background: var(--lime);
+            color: #20241f;
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .signin-card h2 {
+            margin: 0 0 9px;
+            font-size: 29px;
+        }
+
+        .card-subtitle {
+            margin: 0 0 27px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 9px;
+            color: #e8ebdf;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            min-height: 49px;
+            margin: 0;
+            padding: 13px 14px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            outline: none;
+            background: #222720;
+            color: var(--text);
+            font: inherit;
+            font-size: 14px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--lime);
+            box-shadow: 0 0 0 3px rgba(199, 243, 107, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #777f71;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 68px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            padding: 6px;
+            border: 0;
+            background: transparent;
+            color: var(--lime);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .signin-button {
+            width: 100%;
+            min-height: 50px;
+            margin-top: 6px;
+            border: 0;
+            border-radius: 12px;
+            background: var(--lime);
+            color: #20241f;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 800;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .signin-button:hover {
+            background: #d6ff86;
+            transform: translateY(-2px);
+        }
+
+        .signin-button:disabled {
+            cursor: wait;
+            opacity: 0.7;
+            transform: none;
+        }
+
+        .messages {
+            margin-bottom: 18px;
+        }
+
+        .message {
+            margin-bottom: 9px;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #222720;
+            color: var(--text);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .signup-text {
+            margin: 24px 0 0;
+            color: var(--muted);
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .signup-link {
+            color: var(--lime);
+            font-weight: 700;
+        }
+
+        .security-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            margin-top: 25px;
+            padding-top: 19px;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 900px) {
+            .signin-layout {
+                grid-template-columns: 1fr;
+                gap: 35px;
+                padding: 40px 6%;
+            }
+
+            .signin-intro {
+                max-width: 600px;
+            }
+
+            .signin-intro h1 {
+                font-size: 44px;
+            }
+
+            .benefits {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .signin-card {
+                justify-self: center;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .signin-header {
+                padding: 18px 5%;
+            }
+
+            .brand {
+                font-size: 23px;
+            }
+
+            .signin-layout {
+                padding: 30px 5%;
+            }
+
+            .signin-intro h1 {
+                font-size: 38px;
+            }
+
+            .benefits {
+                grid-template-columns: 1fr;
+            }
+
+            .signin-card {
+                padding: 25px 19px;
+                border-radius: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="signin-header">
+    <a href="{% url 'home' %}" class="brand">
+        Meal<span>Mate.</span>
+    </a>
+
+    <a href="{% url 'home' %}" class="header-link">
+        ← Back to home
+    </a>
+</header>
+
+<main class="signin-layout">
+
+    <section class="signin-intro">
+        <span class="eyebrow">Welcome back</span>
+
+        <h1>
+            Good food.
+            <br>
+            Good to see
+            <span>you.</span>
+        </h1>
+
+        <p>
+            Your favourite restaurants and delicious meals are waiting.
+            Sign in to continue where you left off.
+        </p>
+
+        <div class="benefits">
+            <div class="benefit">
+                <span class="benefit-icon">✓</span>
+                <span>Explore your favourite restaurants</span>
+            </div>
+
+            <div class="benefit">
+                <span class="benefit-icon">✓</span>
+                <span>Continue shopping from your cart</span>
+            </div>
+
+            <div class="benefit">
+                <span class="benefit-icon">✓</span>
+                <span>Check your previous orders</span>
+            </div>
+
+            <div class="benefit">
+                <span class="benefit-icon">✓</span>
+                <span>Manage your account and address</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="signin-card">
+        <div class="welcome-icon">M</div>
+
+        <h2>Sign in to MealMate</h2>
+
+        <p class="card-subtitle">
+            Enter your account details to continue.
+        </p>
+
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'signin' %}" id="signin-form">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter your username"
+                    autocomplete="username"
+                    required
+                    autofocus
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+
+                <div class="password-wrapper">
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        id="toggle-password"
+                        aria-label="Show password"
+                    >Show</button>
+                </div>
+            </div>
+
+            <button type="submit" class="signin-button" id="signin-button">
+                Sign In →
+            </button>
+        </form>
+
+        <p class="signup-text">
+            Don't have an account?
+            <a href="{% url 'signup' %}" class="signup-link">
+                Create account
+            </a>
+        </p>
+
+        <div class="security-note">
+            <span>🔒</span>
+            <span>
+                Your account is protected by MealMate's sign-in process.
+                Never share your password with anyone.
+            </span>
+        </div>
+    </section>
+
+</main>
+
+<script>
+    // Show or hide the password.
+    const passwordInput = document.getElementById("password");
+    const togglePassword = document.getElementById("toggle-password");
+
+    togglePassword.addEventListener("click", function () {
+        const showPassword = passwordInput.type === "password";
+
+        passwordInput.type = showPassword ? "text" : "password";
+        togglePassword.textContent = showPassword ? "Hide" : "Show";
+        togglePassword.setAttribute(
+            "aria-label",
+            showPassword ? "Hide password" : "Show password"
+        );
+    });
+
+    // Prevent repeated clicks while the form is being submitted.
+    document.getElementById("signin-form").addEventListener("submit", function () {
+        const button = document.getElementById("signin-button");
+        button.disabled = true;
+        button.textContent = "Signing in...";
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,403 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Restaurants | MealMate Admin</title>
+
+    <link rel="stylesheet" href="{% static 'delivery/style.css' %}">
+
+    <style>
+        .admin-page {
+            max-width: 1250px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+
+        .admin-label {
+            color: #c7f36b;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .admin-title {
+            color: #fffef8;
+            font-size: clamp(28px, 4vw, 40px);
+            margin: 10px 0;
+        }
+
+        .admin-subtitle {
+            color: #a9afa2;
+            line-height: 1.7;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .admin-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 18px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            transition: 0.2s ease;
+        }
+
+        .btn-primary {
+            background: #c7f36b;
+            color: #20241f;
+        }
+
+        .btn-primary:hover {
+            background: #d8ff8d;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            border: 1px solid #41473d;
+            color: #fffef8;
+            background: #292e28;
+        }
+
+        .btn-secondary:hover {
+            border-color: #c7f36b;
+        }
+
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 18px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: #292e28;
+            border: 1px solid #41473d;
+            border-radius: 16px;
+            padding: 22px;
+        }
+
+        .stat-label {
+            color: #a9afa2;
+            font-size: 14px;
+        }
+
+        .stat-value {
+            color: #fffef8;
+            font-size: 30px;
+            font-weight: 700;
+            margin-top: 12px;
+        }
+
+        .restaurant-panel {
+            background: #292e28;
+            border: 1px solid #41473d;
+            border-radius: 18px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 22px 24px;
+            border-bottom: 1px solid #41473d;
+        }
+
+        .panel-header h2 {
+            color: #fffef8;
+            margin: 0 0 8px;
+            font-size: 21px;
+        }
+
+        .panel-header p {
+            color: #a9afa2;
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .restaurant-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        .restaurant-table th {
+            color: #a9afa2;
+            background: #242922;
+            text-align: left;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 17px 20px;
+        }
+
+        .restaurant-table td {
+            padding: 20px;
+            color: #fffef8;
+            border-top: 1px solid #41473d;
+            vertical-align: middle;
+        }
+
+        .restaurant-table tbody tr:hover {
+            background: #30362e;
+        }
+
+        .restaurant-name {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .restaurant-id {
+            color: #a9afa2;
+            font-size: 12px;
+        }
+
+        .cuisine-tag {
+            display: inline-block;
+            background: #383f32;
+            color: #c7f36b;
+            border-radius: 20px;
+            padding: 6px 10px;
+            font-size: 12px;
+        }
+
+        .rating {
+            color: #c7f36b;
+            font-weight: 700;
+        }
+
+        .row-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .action-link {
+            text-decoration: none;
+            padding: 8px 11px;
+            border: 1px solid #41473d;
+            border-radius: 8px;
+            color: #fffef8;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .action-link:hover {
+            border-color: #c7f36b;
+            color: #c7f36b;
+        }
+
+        .delete-link:hover {
+            border-color: #ff8c82;
+            color: #ff8c82;
+        }
+
+        .empty-state {
+            padding: 55px 20px;
+            text-align: center;
+        }
+
+        .empty-state h3 {
+            color: #fffef8;
+            font-size: 22px;
+        }
+
+        .empty-state p {
+            color: #a9afa2;
+            margin-bottom: 24px;
+        }
+
+        .admin-footer {
+            margin-top: 25px;
+            color: #a9afa2;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            .admin-page {
+                padding: 25px 14px;
+            }
+
+            .admin-header {
+                align-items: flex-start;
+            }
+
+            .admin-actions {
+                width: 100%;
+            }
+
+            .admin-btn {
+                flex: 1;
+            }
+
+            .stat-card {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="admin-page">
+
+    <header class="admin-header">
+        <div>
+            <span class="admin-label">MealMate Administration</span>
+            <h1 class="admin-title">Restaurants</h1>
+            <p class="admin-subtitle">
+                Manage your restaurant partners and keep your food directory up to date.
+            </p>
+        </div>
+
+        <div class="admin-actions">
+            <a href="{% url 'admin_orders' %}" class="admin-btn btn-secondary">
+                Manage Orders
+            </a>
+
+            <a href="{% url 'add_restaurant' %}" class="admin-btn btn-primary">
+                + Add Restaurant
+            </a>
+        </div>
+    </header>
+
+    <section class="admin-stats">
+        <div class="stat-card">
+            <div class="stat-label">Total Restaurants</div>
+            <div class="stat-value">{{ restaurants|length }}</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-label">Restaurant Management</div>
+            <div class="stat-value">Active</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-label">Quick Access</div>
+            <div style="margin-top: 14px;">
+                <a href="{% url 'menu_item_list' %}"
+                   class="admin-btn btn-secondary">
+                    Manage Menu
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="restaurant-panel">
+
+        <div class="panel-header">
+            <h2>Restaurant Directory</h2>
+            <p>View, update, or remove restaurants from MealMate.</p>
+        </div>
+
+        {% if restaurants %}
+
+        <div class="table-wrapper">
+            <table class="restaurant-table">
+                <thead>
+                    <tr>
+                        <th>Restaurant</th>
+                        <th>Cuisine</th>
+                        <th>Rating</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for restaurant in restaurants %}
+                    <tr>
+                        <td>
+                            <div class="restaurant-name">
+                                {{ restaurant.name }}
+                            </div>
+
+                            <div class="restaurant-id">
+                                Restaurant #{{ restaurant.id }}
+                            </div>
+                        </td>
+
+                        <td>
+                            <span class="cuisine-tag">
+                                {{ restaurant.cuisine|default:"Not specified" }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="rating">
+                                {% if restaurant.rating %}
+                                    ★ {{ restaurant.rating }}
+                                {% else %}
+                                    —
+                                {% endif %}
+                            </span>
+                        </td>
+
+                        <td>
+                            <div class="row-actions">
+                                <a href="{% url 'update_restaurant' restaurant.id %}"
+                                   class="action-link">
+                                    Edit
+                                </a>
+
+                                <a href="{% url 'delete_restaurant' restaurant.id %}"
+                                   class="action-link delete-link">
+                                    Delete
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% else %}
+
+        <div class="empty-state">
+            <h3>No restaurants yet</h3>
+
+            <p>
+                Add your first restaurant to start building your MealMate food directory.
+            </p>
+
+            <a href="{% url 'add_restaurant' %}" class="admin-btn btn-primary">
+                + Add Your First Restaurant
+            </a>
+        </div>
+
+        {% endif %}
+
+    </section>
+
+    <div class="admin-footer">
+        MealMate Admin Panel · Restaurant Management
+    </div>
+
+</div>
+
+</body>
+</html>

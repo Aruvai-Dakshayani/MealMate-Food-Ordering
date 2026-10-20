@@ -1,0 +1,593 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account | MealMate</title>
+
+    <link rel="stylesheet" href="{% static 'delivery/style.css' %}">
+
+    <style>
+        :root {
+            --background: #20241f;
+            --surface: #292e28;
+            --surface-light: #33392f;
+            --lime: #c7f36b;
+            --text: #fffef8;
+            --muted: #a9afa2;
+            --border: #444a40;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--background);
+            color: var(--text);
+            font-family: "DM Sans", Arial, sans-serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .signup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 22px 7%;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand {
+            font-size: 27px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .brand span {
+            color: var(--lime);
+        }
+
+        .header-link {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .header-link:hover,
+        .signin-link:hover {
+            color: var(--lime);
+        }
+
+        .signup-layout {
+            min-height: calc(100vh - 80px);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 60px;
+            padding: 55px 9%;
+        }
+
+        .signup-intro {
+            max-width: 490px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            padding: 8px 13px;
+            border: 1px solid #53643b;
+            border-radius: 30px;
+            color: var(--lime);
+            background: #2a3423;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .signup-intro h1 {
+            margin: 24px 0 18px;
+            font-size: clamp(38px, 5vw, 62px);
+            line-height: 1.08;
+            letter-spacing: -2px;
+        }
+
+        .signup-intro h1 span {
+            color: var(--lime);
+        }
+
+        .signup-intro p {
+            max-width: 420px;
+            color: var(--muted);
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .benefits {
+            display: grid;
+            gap: 16px;
+            margin-top: 35px;
+        }
+
+        .benefit {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #e9ecdf;
+            font-size: 14px;
+        }
+
+        .benefit-icon {
+            display: grid;
+            place-items: center;
+            width: 35px;
+            height: 35px;
+            flex-shrink: 0;
+            border-radius: 11px;
+            color: var(--lime);
+            background: var(--surface-light);
+        }
+
+        .signup-card {
+            width: 100%;
+            max-width: 510px;
+            justify-self: end;
+            padding: 34px;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            background: var(--surface);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.2);
+        }
+
+        .signup-card h2 {
+            margin: 0 0 8px;
+            font-size: 28px;
+        }
+
+        .card-subtitle {
+            margin: 0 0 25px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 17px;
+        }
+
+        .form-group {
+            min-width: 0;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #e8ebdf;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            margin: 0;
+            padding: 13px 14px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            outline: none;
+            background: #222720;
+            color: var(--text);
+            font: inherit;
+            font-size: 14px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input {
+            min-height: 47px;
+        }
+
+        .form-group textarea {
+            min-height: 75px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--lime);
+            box-shadow: 0 0 0 3px rgba(199, 243, 107, 0.1);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #777f71;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 65px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            padding: 6px;
+            border: 0;
+            background: transparent;
+            color: var(--lime);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .signup-button {
+            width: 100%;
+            min-height: 49px;
+            margin-top: 23px;
+            border: 0;
+            border-radius: 12px;
+            background: var(--lime);
+            color: #20241f;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 800;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .signup-button:hover {
+            background: #d6ff86;
+            transform: translateY(-2px);
+        }
+
+        .signup-button:disabled {
+            cursor: wait;
+            opacity: 0.7;
+            transform: none;
+        }
+
+        .signin-text {
+            margin: 21px 0 0;
+            color: var(--muted);
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .signin-link {
+            color: var(--lime);
+            font-weight: 700;
+        }
+
+        .messages {
+            margin-bottom: 18px;
+        }
+
+        .message {
+            margin: 0 0 8px;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            background: #222720;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .form-error {
+            margin-top: 6px;
+            color: #ffaaa0;
+            font-size: 12px;
+        }
+
+        .terms-note {
+            margin: 13px 0 0;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        @media (max-width: 900px) {
+            .signup-layout {
+                grid-template-columns: 1fr;
+                gap: 35px;
+                padding: 40px 6%;
+            }
+
+            .signup-intro {
+                max-width: 600px;
+            }
+
+            .signup-intro h1 {
+                font-size: 44px;
+            }
+
+            .benefits {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .signup-card {
+                justify-self: center;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .signup-header {
+                padding: 18px 5%;
+            }
+
+            .brand {
+                font-size: 23px;
+            }
+
+            .signup-layout {
+                padding: 30px 5%;
+            }
+
+            .signup-intro h1 {
+                font-size: 38px;
+            }
+
+            .benefits {
+                grid-template-columns: 1fr;
+            }
+
+            .signup-card {
+                padding: 23px 18px;
+                border-radius: 18px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full-width {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="signup-header">
+    <a href="{% url 'home' %}" class="brand">
+        Meal<span>Mate.</span>
+    </a>
+
+    <a href="{% url 'home' %}" class="header-link">
+        ← Back to home
+    </a>
+</header>
+
+<main class="signup-layout">
+
+    <section class="signup-intro">
+        <span class="eyebrow">Good food, good mood</span>
+
+        <h1>
+            Your next favourite meal is
+            <span>closer.</span>
+        </h1>
+
+        <p>
+            Join MealMate to discover local restaurants, explore delicious
+            menus, and order the food you love with a smoother experience.
+        </p>
+
+        <div class="benefits">
+            <div class="benefit">
+                <span class="benefit-icon">✓</span>
+                <span>Discover restaurants near you</span>
+            </div>
+
+            <div class="benefit">
+                <span class="benefit-icon">✓</span>
+                <span>Explore menus and add to your cart</span>
+            </div>
+
+            <div class="benefit">
+                <span class="benefit-icon">✓</span>
+                <span>Track your orders and view order history</span>
+            </div>
+
+            <div class="benefit">
+                <span class="benefit-icon">✓</span>
+                <span>Manage your profile and delivery address</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="signup-card">
+        <h2>Create your account</h2>
+        <p class="card-subtitle">
+            Sign up to start exploring delicious food.
+        </p>
+
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'signup' %}" id="signup-form">
+            {% csrf_token %}
+
+            <div class="form-grid">
+
+                <div class="form-group full-width">
+                    <label for="username">Username</label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Choose a username"
+                        autocomplete="username"
+                        minlength="3"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="mobile">Mobile number</label>
+                    <input
+                        type="tel"
+                        id="mobile"
+                        name="mobile"
+                        placeholder="10-digit mobile number"
+                        autocomplete="tel"
+                        inputmode="numeric"
+                        pattern="[0-9]{10}"
+                        maxlength="10"
+                        title="Enter a 10-digit mobile number"
+                        required
+                    >
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="address">Delivery address</label>
+                    <textarea
+                        id="address"
+                        name="address"
+                        placeholder="Enter your house number, street, area and city"
+                        autocomplete="street-address"
+                        required
+                    ></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-wrapper">
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Create a password"
+                            autocomplete="new-password"
+                            minlength="8"
+                            required
+                        >
+                        <button
+                            type="button"
+                            class="toggle-password"
+                            data-target="password"
+                            aria-label="Show password"
+                        >Show</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm_password">Confirm password</label>
+                    <div class="password-wrapper">
+                        <input
+                            type="password"
+                            id="confirm_password"
+                            name="confirm_password"
+                            placeholder="Repeat password"
+                            autocomplete="new-password"
+                            minlength="8"
+                            required
+                        >
+                        <button
+                            type="button"
+                            class="toggle-password"
+                            data-target="confirm_password"
+                            aria-label="Show confirm password"
+                        >Show</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="password-error" class="form-error" role="alert"></div>
+
+            <button type="submit" class="signup-button" id="signup-button">
+                Create Account →
+            </button>
+
+            <p class="terms-note">
+                By creating an account, you agree to use MealMate responsibly.
+            </p>
+        </form>
+
+        <p class="signin-text">
+            Already have an account?
+            <a href="{% url 'signin' %}" class="signin-link">Sign in</a>
+        </p>
+    </section>
+
+</main>
+
+<script>
+    // Show or hide passwords.
+    document.querySelectorAll(".toggle-password").forEach(function (button) {
+        button.addEventListener("click", function () {
+            const input = document.getElementById(button.dataset.target);
+            const showPassword = input.type === "password";
+
+            input.type = showPassword ? "text" : "password";
+            button.textContent = showPassword ? "Hide" : "Show";
+            button.setAttribute(
+                "aria-label",
+                showPassword ? "Hide password" : "Show password"
+            );
+        });
+    });
+
+    // Check that both passwords match before submitting.
+    const signupForm = document.getElementById("signup-form");
+    const passwordInput = document.getElementById("password");
+    const confirmPasswordInput = document.getElementById("confirm_password");
+    const passwordError = document.getElementById("password-error");
+
+    signupForm.addEventListener("submit", function (event) {
+        passwordError.textContent = "";
+
+        if (passwordInput.value !== confirmPasswordInput.value) {
+            event.preventDefault();
+            passwordError.textContent = "Passwords do not match. Please try again.";
+            confirmPasswordInput.focus();
+            return;
+        }
+
+        const submitButton = document.getElementById("signup-button");
+        submitButton.disabled = true;
+        submitButton.textContent = "Creating account...";
+    });
+
+    confirmPasswordInput.addEventListener("input", function () {
+        passwordError.textContent = "";
+    });
+</script>
+
+</body>
+</html>

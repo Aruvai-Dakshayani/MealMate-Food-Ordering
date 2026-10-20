@@ -1,0 +1,222 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Login | MealMate</title>
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <link
+        rel="stylesheet"
+        href="{% static 'delivery/style.css' %}"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="auth-page login-page">
+
+
+    <div class="auth-container">
+
+
+        <!-- =====================================
+             LEFT SHOWCASE
+        ====================================== -->
+
+        <section class="auth-showcase">
+
+
+            <div class="auth-logo">
+
+                Meal<span>Mate</span>
+
+            </div>
+
+
+            <div class="auth-showcase-content">
+
+                <p class="auth-label">
+                    WELCOME BACK
+                </p>
+
+
+                <h1>
+
+                    Good food is
+                    <br>
+
+                    <span>waiting for you.</span>
+
+                </h1>
+
+
+                <p>
+
+                    Your favourite restaurants,
+                    delicious meals and unforgettable
+                    flavours are only a few clicks away.
+
+                </p>
+
+            </div>
+
+
+            <div class="auth-trust">
+
+                <span class="auth-trust-dot"></span>
+
+                Fresh meals · Trusted restaurants · Easy ordering
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================
+             LOGIN FORM
+        ====================================== -->
+
+        <section class="auth-form-panel">
+
+
+            <div class="auth-form">
+
+
+                <h2>
+                    Welcome back
+                </h2>
+
+
+                <p class="auth-subtitle">
+
+                    Login to your MealMate account
+                    and continue your food journey.
+
+                </p>
+
+
+                {% if error %}
+
+                    <div class="auth-error">
+
+                        {{ error }}
+
+                    </div>
+
+                {% endif %}
+
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+
+                    <div class="auth-field">
+
+                        <label for="username">
+                            Username
+                        </label>
+
+
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Enter your username"
+                            autocomplete="username"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="auth-field">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <button
+                        type="submit"
+                        class="auth-submit"
+                    >
+
+                        Login to MealMate
+
+                    </button>
+
+                </form>
+
+
+                <p class="auth-switch">
+
+                    Don't have an account?
+
+                    <a href="{% url 'signup' %}">
+                        Create one
+                    </a>
+
+                </p>
+
+
+            </div>
+
+
+        </section>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>
